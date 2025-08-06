@@ -1,0 +1,77 @@
+# **##### JWT-based authentication using React for the frontend and Node/Express for the backend. #####**
+
+\- Backend code (Node.js + Express + MongoDB + JWT)
+\- Frontend code (React)
+\- Real-world explanation of the flow?
+\- worked with bcrypt, passport, and session ID-based auth.
+\- requesting a stateless JWT authentication setup.
+
+
+## **🔐 What is JWT (JSON Web Token)?**
+JWT (JSON Web Token) is a compact, URL-safe way to represent claims (user data) between two parties. It is widely used in stateless authentication — particularly in modern web apps — where sessions are not stored on the server.
+
+
+**🧱 JWT Structure (Three Parts)**
+    <Header>.<Payload>.<Signature>
+
+	1. Header:- Contains metadata about the token, like the algorithm used to sign it.
+		{
+		  	"alg": "HS256",
+    	  	"typ": "JWT"
+    	}
+
+    	2. Payload:- Contains the actual data (claims), such as user ID or email. Do not include sensitive info here — it's Base64 encoded, not encrypted.
+    
+		{
+    		"userId": "123456",
+    		"role": "admin",
+			"iat": 1629876543,
+			"exp": 1629880143
+		}
+
+
+	    3. Signature:- This is created by taking.
+
+		HMACSHA256(
+ 			base64UrlEncode(header) + "." + base64UrlEncode(payload),
+ 			secret
+		)
+
+
+
+**✅ How JWT Authentication Works (Step-by-Step)**
+
+1\. 🔐 User Logs In
+	User enters email \& password.
+	Backend verifies credentials.
+	If correct → creates JWT and sends it to the frontend.
+
+
+
+2\. 🗝️ Frontend Stores JWT
+	Token is stored in localStorage or httpOnly cookies.
+
+
+3\. 📡 Sending Requests
+	On every request to a protected route, the frontend sends the JWT in the Authorization header like:
+	Authorization: Bearer <your\_token>
+
+
+4\. 🛡️ Backend Verifies Token
+	The server verifies the JWT using the secret key.
+	If it's valid and not expired → user is authenticated.
+	Otherwise → access is denied.
+
+
+Step->What Happens
+
+1\. Login :-- Client sends credentials via Axios → Server returns JWT
+2\. Store Token :-- JWT is stored in localStorage or cookies
+3\. Send Token :-- Axios attaches JWT in headers → Authorization: Bearer ...
+4\. Verify Token :-- Backend validates JWT → Grants or denies access
+5\. Logout :-- Frontend removes token → User is logged out
+
+
+
+
+
